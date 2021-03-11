@@ -89,7 +89,7 @@ func Generate(cfg Config) error {
 // Compile generates a binary from the sources based on the configuration
 func Compile(cfg Config) error {
 	// first, we test to check if we have Go at all
-	goBinary, err := GetGoPath(cfg)
+	goBinary, err := getGoPath(cfg)
 	if err != nil {
 		return err
 	}
@@ -108,7 +108,7 @@ func Compile(cfg Config) error {
 // GetModules retrieves the go modules, updating go.mod and go.sum in the process
 func GetModules(cfg Config) error {
 	// first, we test to check if we have Go at all
-	goBinary, err := GetGoPath(cfg)
+	goBinary, err := getGoPath(cfg)
 	if err != nil {
 		return err
 	}
@@ -117,14 +117,14 @@ func GetModules(cfg Config) error {
 	cmd := exec.Command(goBinary, "mod", "download")
 	cmd.Dir = cfg.Distribution.OutputPath
 	if out, err := cmd.CombinedOutput(); err != nil {
-		return fmt.Errorf("failed to get go modules: %w. Output: %q", err, out)
+		return fmt.Errorf("failed to download go modules: %w. Output: %q", err, out)
 	}
 
 	return nil
 }
 
-// GetGoPath checks if go is present and correct, and returns a useable go bin location
-func GetGoPath(cfg Config) (string, error) {
+// getGoPath checks if go is present and correct, and returns a useable go bin location
+func getGoPath(cfg Config) (string, error) {
 	goBinary := cfg.Distribution.Go
 	if _, err := exec.Command(goBinary, "env").CombinedOutput(); err != nil {
 		path, err := exec.LookPath("go")
