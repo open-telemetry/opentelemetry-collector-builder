@@ -124,7 +124,7 @@ func GetModules(cfg Config) error {
 	failReason := "unknown"
 	for i := 1; i <= retries; i++ {
 		if out, err := cmd.CombinedOutput(); err != nil {
-			failReason = fmt.Sprintf("%w. Output: %q", err, out)
+			failReason = fmt.Sprintf("%s. Output: %q", err, out)
 			cfg.Logger.Info("Failed modules download", "retry", fmt.Sprintf("%d/%d", i, retries))
 			time.Sleep(5 * time.Second)
 			continue
