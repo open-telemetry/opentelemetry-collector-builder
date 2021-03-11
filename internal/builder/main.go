@@ -105,7 +105,7 @@ func Compile(cfg Config) error {
 	return nil
 }
 
-// GetModules Runs go mod download to update go.mod and go.sum
+// GetModules retrieves the go modules, updating go.mod and go.sum in the process
 func GetModules(cfg Config) error {
 	// first, we test to check if we have Go at all
 	goBinary, err := GetGoPath(cfg)
