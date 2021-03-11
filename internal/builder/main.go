@@ -21,6 +21,7 @@ import (
 	"os/exec"
 	"path/filepath"
 	"text/template"
+	"time"
 
 	"github.com/open-telemetry/opentelemetry-collector-builder/internal/scaffold"
 )
@@ -116,11 +117,21 @@ func GetModules(cfg Config) error {
 	cfg.Logger.Info("Getting go modules")
 	cmd := exec.Command(goBinary, "mod", "download")
 	cmd.Dir = cfg.Distribution.OutputPath
-	if out, err := cmd.CombinedOutput(); err != nil {
-		return fmt.Errorf("failed to download go modules: %w. Output: %q", err, out)
-	}
 
-	return nil
+	// basic retry if error from go mod command (in case of transient network error). This could be improved
+	// retry 3 times with 5 second spacing interval
+	retries := 3
+	failReason := "unknown"
+	for i := 1; i <= retries; i++ {
+		if out, err := cmd.CombinedOutput(); err != nil {
+			failReason = fmt.Sprintf("%w. Output: %q", err, out)
+			cfg.Logger.Info("Failed modules download", "retry", fmt.Sprintf("%d/%d", i, retries))
+			time.Sleep(5 * time.Second)
+			continue
+		}
+		return nil
+	}
+	return fmt.Errorf("failed to download go modules: %s", failReason)
 }
 
 // getGoPath checks if go is present and correct, and returns a useable go bin location
