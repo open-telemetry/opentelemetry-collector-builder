@@ -123,7 +123,7 @@ func GetModules(cfg Config) error {
 	return nil
 }
 
-// GetGoPath Checks if go is present and correct and returns a useable go bin location
+// GetGoPath checks if go is present and correct, and returns a useable go bin location
 func GetGoPath(cfg Config) (string, error) {
 	goBinary := cfg.Distribution.Go
 	if _, err := exec.Command(goBinary, "env").CombinedOutput(); err != nil {
