@@ -23,7 +23,7 @@ import (
 
 func main() {
 	if err := cmd.Execute(); err != nil {
-		fmt.Errorf("failed to build: %v", err)
+		fmt.Println(err.Error())
 		os.Exit(1)
 	}
 }
