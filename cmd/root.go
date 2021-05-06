@@ -28,8 +28,9 @@ var (
 	version = "dev"
 	date    = "unknown"
 
-	cfgFile string
-	cfg     = builder.DefaultConfig()
+	cfgFile      string
+	generateOnly bool
+	cfg          = builder.DefaultConfig()
 
 	versionCmd = &cobra.Command{
 		Use:   "version",
@@ -60,12 +61,26 @@ func Execute() error {
 				return err
 			}
 
-			return builder.GenerateAndCompile(cfg)
+			if err := builder.Generate(cfg); err != nil {
+				return err
+			}
+
+			if err := builder.GetModules(cfg); err != nil {
+				return err
+			}
+
+			if !generateOnly {
+				return builder.Compile(cfg)
+			} else {
+				cfg.Logger.Info("--genetateonly set true. Opentelemetry collector will not be compiled")
+			}
+			return nil
 		},
 	}
 
 	// the external config file
 	cmd.Flags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.otelcol-builder.yaml)")
+	cmd.Flags().BoolVar(&generateOnly, "generateonly", false, "Whether builder should only generate go code with no compile of the collector (defaults to false)")
 
 	// the distribution parameters, which we accept as CLI flags as well
 	cmd.Flags().StringVar(&cfg.Distribution.ExeName, "name", "otelcol-custom", "The executable name for the OpenTelemetry Collector distribution")

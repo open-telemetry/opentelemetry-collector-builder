@@ -34,20 +34,6 @@ var (
 	ErrGoNotFound = errors.New("Go binary not found")
 )
 
-// GenerateAndCompile will generate the source files based on the given configuration, update go mod, and will compile into a binary
-func GenerateAndCompile(cfg Config) error {
-	if err := Generate(cfg); err != nil {
-		return err
-	}
-
-	// run go get to update go.mod and go.sum files
-	if err := GetModules(cfg); err != nil {
-		return err
-	}
-
-	return Compile(cfg)
-}
-
 // Generate assembles a new distribution based on the given configuration
 func Generate(cfg Config) error {
 	// create a warning message for non-aligned builder and collector base
