@@ -28,9 +28,8 @@ var (
 	version = "dev"
 	date    = "unknown"
 
-	cfgFile      string
-	generateOnly bool
-	cfg          = builder.DefaultConfig()
+	cfgFile string
+	cfg     = builder.DefaultConfig()
 
 	versionCmd = &cobra.Command{
 		Use:   "version",
