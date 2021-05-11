@@ -80,7 +80,7 @@ func Execute() error {
 
 	// the external config file
 	cmd.Flags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.otelcol-builder.yaml)")
-	cmd.Flags().BoolVar(&generateOnly, "generateonly", false, "Whether builder should only generate go code with no compile of the collector (defaults to false)")
+	cmd.Flags().BoolVar(&generateOnly, "generateonly", false, "Whether builder should only generate go code with no compile of the collector")
 
 	// the distribution parameters, which we accept as CLI flags as well
 	cmd.Flags().StringVar(&cfg.Distribution.ExeName, "name", "otelcol-custom", "The executable name for the OpenTelemetry Collector distribution")
