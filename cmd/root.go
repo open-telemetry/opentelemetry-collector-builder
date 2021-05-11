@@ -72,7 +72,7 @@ func Execute() error {
 			if !generateOnly {
 				return builder.Compile(cfg)
 			} else {
-				cfg.Logger.Info("--genetateonly set true. Opentelemetry collector will not be compiled")
+				cfg.Logger.Info("Generating source codes only, the distribution will not be compiled.")
 			}
 			return nil
 		},
