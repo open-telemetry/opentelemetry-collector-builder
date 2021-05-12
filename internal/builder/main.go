@@ -93,7 +93,7 @@ func Generate(cfg Config) error {
 
 // Compile generates a binary from the sources based on the configuration
 func Compile(cfg Config) error {
-	if cfg.GenerateOnly {
+	if cfg.SkipCompilation {
 		cfg.Logger.Info("Generating source codes only, the distribution will not be compiled.")
 		return nil
 	}
