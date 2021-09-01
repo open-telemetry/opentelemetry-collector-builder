@@ -91,6 +91,7 @@ func DefaultConfig() Config {
 
 // Validate checks whether the current configuration is valid
 func (c *Config) Validate() error {
+	// #nosec G204
 	if _, err := exec.Command(c.Distribution.Go, "env").CombinedOutput(); err != nil {
 		path, err := exec.LookPath("go")
 		if err != nil {

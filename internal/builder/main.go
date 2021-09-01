@@ -96,6 +96,7 @@ func Compile(cfg Config) error {
 	}
 
 	cfg.Logger.Info("Compiling")
+	// #nosec G204
 	cmd := exec.Command(cfg.Distribution.Go, "build", "-ldflags=-s -w", "-trimpath", "-o", cfg.Distribution.ExeName)
 	cmd.Dir = cfg.Distribution.OutputPath
 	if out, err := cmd.CombinedOutput(); err != nil {
@@ -108,6 +109,7 @@ func Compile(cfg Config) error {
 
 // GetModules retrieves the go modules, updating go.mod and go.sum in the process
 func GetModules(cfg Config) error {
+	// #nosec G204
 	cmd := exec.Command(cfg.Distribution.Go, "mod", "tidy")
 	cmd.Dir = cfg.Distribution.OutputPath
 	if out, err := cmd.CombinedOutput(); err != nil {
@@ -120,6 +122,7 @@ func GetModules(cfg Config) error {
 	retries := 3
 	failReason := "unknown"
 	for i := 1; i <= retries; i++ {
+		// #nosec G204
 		cmd := exec.Command(cfg.Distribution.Go, "mod", "download", "all")
 		cmd.Dir = cfg.Distribution.OutputPath
 		if out, err := cmd.CombinedOutput(); err != nil {
