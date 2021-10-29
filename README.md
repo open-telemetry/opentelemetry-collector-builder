@@ -3,6 +3,10 @@
 
 This program generates a custom OpenTelemetry Collector binary based on a given configuration.
 
+---
+__WARNING__ This repository is now deprecated. The builder has found a [new home inside the OpenTelemetry Collector core repository](https://github.com/open-telemetry/opentelemetry-collector/tree/main/cmd/builder).
+
+---
 ## TL;DR
 ```console
 $ GO111MODULE=on go get github.com/open-telemetry/opentelemetry-collector-builder
